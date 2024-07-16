@@ -5,7 +5,7 @@ import (
 )
 
 type Company struct {
-	CompanyID         uuid.UUID `json:"id" validate:"required"`
+	CompanyID         uuid.UUID `json:"company_id" validate:"required"`
 	Name              string    `json:"name" validate:"required,max=15,unique"`
 	Description       string    `json:"description" validate:"max=3000"`
 	AmountOfEmployees int       `json:"amount_of_employees" validate:"required"`

@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"github.com/alkosmas92/xm-golang/internal/models"
 	"github.com/google/uuid"
+	"log"
 )
 
 type CompanyRepository interface {
@@ -28,7 +29,7 @@ func (r *companyRepository) GetCompanysByUserID(ctx context.Context, companyID u
 		return nil, ctx.Err()
 	default:
 		query := `
-			SELECT id, name, description, amount_of_employees, registered, type
+			SELECT companyID, name, description, amountOfEmployees, registered, type
 			FROM companies
 			WHERE companyID = ?`
 
@@ -51,8 +52,9 @@ func (r *companyRepository) CreateCompany(ctx context.Context, company *models.C
 	case <-ctx.Done():
 		return ctx.Err()
 	default:
+		log.Print(company.CompanyID, company.Name, company.Description, company.AmountOfEmployees, company.Registered, company.Type)
 		query := `
-			INSERT INTO companies (Company_id, Name, Description, AmountOfEmployees, Registered, Type)
+			INSERT INTO companies (CompanyID, Name, Description, AmountOfEmployees, Registered, Type)
 			VALUES (?, ?, ?, ?, ?, ?)`
 		_, err := r.db.ExecContext(ctx, query, company.CompanyID, company.Name, company.Description, company.AmountOfEmployees, company.Registered, company.Type)
 		return err
@@ -66,8 +68,8 @@ func (r *companyRepository) UpdateCompany(ctx context.Context, companyID uuid.UU
 	default:
 		query := `
 			UPDATE companies
-			SET name = ?, description = ?, amount_of_employees = ?, registered = ?, type = ?
-			WHERE company_id = ?`
+			SET name = ?, description = ?, amountOfEmployees = ?, registered = ?, type = ?
+			WHERE companyID = ?`
 		_, err := r.db.ExecContext(ctx, query, company.Name, company.Description, company.AmountOfEmployees, company.Registered, company.Type, companyID)
 		return err
 	}
@@ -78,7 +80,7 @@ func (r *companyRepository) DeleteCompany(ctx context.Context, companyID uuid.UU
 	case <-ctx.Done():
 		return ctx.Err()
 	default:
-		query := "DELETE FROM companies WHERE company_id = ?"
+		query := "DELETE FROM companies WHERE companyID = ?"
 		_, err := r.db.ExecContext(ctx, query, companyID)
 		return err
 	}
