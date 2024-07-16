@@ -5,9 +5,9 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"testing"
 
-	"github.com/alkosmas92/platform-go-challenge/internal/app/mocks"
-	"github.com/alkosmas92/platform-go-challenge/internal/app/models"
-	"github.com/alkosmas92/platform-go-challenge/internal/app/services"
+	"github.com/alkosmas92/xm-golang/internal/mocks"
+	"github.com/alkosmas92/xm-golang/internal/models"
+	"github.com/alkosmas92/xm-golang/internal/services"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 )
