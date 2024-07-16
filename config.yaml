@@ -1,0 +1,3 @@
+jwt:
+  secret_key: "secret_key"
+  old_secret_key: "old_secret_key"
