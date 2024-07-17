@@ -11,6 +11,7 @@ import (
 var jwtKey = []byte(viper.GetString("jwt.secret_key"))
 var oldJwtKey = []byte(viper.GetString("jwt.old_secret_key"))
 
+// GenerateJWT generates a new JWT token for a user.
 func GenerateJWT(userID, username string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
 	claims := &models.Claims{
@@ -24,6 +25,8 @@ func GenerateJWT(userID, username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(jwtKey)
 }
+
+// ValidateJWT validates a given JWT token.
 func ValidateJWT(tokenStr string) (*models.Claims, error) {
 	claims := &models.Claims{}
 	token, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token) (interface{}, error) {

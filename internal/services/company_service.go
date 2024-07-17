@@ -7,6 +7,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// CompanyService provides company-related services.
 type CompanyService interface {
 	GetCompanyByCompanyID(ctx context.Context, companyID uuid.UUID) (*models.Company, error)
 	CreateCompany(ctx context.Context, company *models.Company) error
@@ -14,10 +15,12 @@ type CompanyService interface {
 	DeleteCompany(ctx context.Context, companyID uuid.UUID) error
 }
 
+// NewCompanyService creates a new CompanyService.
 type companyService struct {
 	repo repository.CompanyRepository
 }
 
+// NewCompanyService creates a new CompanyService.
 func NewCompanyService(repo repository.CompanyRepository) CompanyService {
 	return &companyService{repo: repo}
 }

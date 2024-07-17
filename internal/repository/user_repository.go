@@ -6,15 +6,18 @@ import (
 	"github.com/alkosmas92/xm-golang/internal/models"
 )
 
+// UserRepository provides access to the user storage.
 type UserRepository interface {
 	CreateUser(ctx context.Context, user *models.User) error
 	GetUserByUsername(ctx context.Context, username string) (*models.User, error)
 }
 
+// UserRepository provides access to user db.
 type userRepository struct {
 	db *sql.DB
 }
 
+// NewUserRepository creates a new UserRepository.
 func NewUserRepository(db *sql.DB) UserRepository {
 	return &userRepository{db: db}
 }

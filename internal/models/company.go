@@ -4,6 +4,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// Company represents a company entity.
 type Company struct {
 	CompanyID         uuid.UUID `json:"company_id" validate:"required"`
 	Name              string    `json:"name" validate:"required,max=15,unique"`
@@ -13,6 +14,7 @@ type Company struct {
 	Type              string    `json:"type" validate:"required,oneof=Corporations NonProfit Cooperative SoleProprietorship"`
 }
 
+// NewCompany creates a new Company instance.
 func NewCompany(name string, description string, amountOfEmployees int, registered bool, companyType string) (*Company, error) {
 	company := &Company{
 		CompanyID:         uuid.New(),

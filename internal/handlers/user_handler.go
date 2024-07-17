@@ -14,15 +14,18 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// UserHandler handles user-related HTTP requests.
 type UserHandler struct {
 	Service services.UserService
 	Logger  *logrus.Logger
 }
 
+// NewUserHandler creates a new UserHandler.
 func NewUserHandler(service services.UserService, logger *logrus.Logger) *UserHandler {
 	return &UserHandler{Service: service, Logger: logger}
 }
 
+// Register handles user registration.
 func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	var user models.User
 
@@ -54,6 +57,7 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// Login handles user login.
 func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var credentials struct {
 		Username string `json:"username"`

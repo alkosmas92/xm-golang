@@ -9,6 +9,7 @@ import (
 	"log"
 )
 
+// UserService provides user-related services.
 type UserService interface {
 	RegisterUser(ctx context.Context, user *models.User) error
 	AuthenticateUser(ctx context.Context, username, password string) (*models.User, error)
@@ -18,6 +19,7 @@ type userService struct {
 	repo repository.UserRepository
 }
 
+// NewUserService creates a new UserService.
 func NewUserService(repo repository.UserRepository) UserService {
 	return &userService{repo: repo}
 }

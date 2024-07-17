@@ -8,6 +8,7 @@ import (
 	"log"
 )
 
+// CompanyRepository provides access to the company storage.
 type CompanyRepository interface {
 	GetCompanyByCompanyID(ctx context.Context, companyID uuid.UUID) (*models.Company, error)
 	CreateCompany(ctx context.Context, company *models.Company) error
@@ -15,10 +16,12 @@ type CompanyRepository interface {
 	DeleteCompany(ctx context.Context, companyID uuid.UUID) error
 }
 
+// companyRepository provides access to the company database.
 type companyRepository struct {
 	db *sql.DB
 }
 
+// NewCompanyRepository creates a new CompanyRepository.
 func NewCompanyRepository(db *sql.DB) CompanyRepository {
 	return &companyRepository{db: db}
 }

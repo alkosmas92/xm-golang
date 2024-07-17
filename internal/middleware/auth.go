@@ -9,6 +9,7 @@ import (
 	"github.com/alkosmas92/xm-golang/internal/utils"
 )
 
+// AuthMiddleware handles authentication for HTTP requests.
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		authHeader := r.Header.Get("Authorization")

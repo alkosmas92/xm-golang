@@ -4,6 +4,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// User represents a user entity.
 type User struct {
 	UserID    string `json:"user_id"`
 	Username  string `json:"username"`
@@ -12,6 +13,7 @@ type User struct {
 	LastName  string `json:"lastname"`
 }
 
+// NewUser creates a new User instance.
 func NewUser(username, password, firstName, lastName string) *User {
 	return &User{
 		UserID:    uuid.New().String(),

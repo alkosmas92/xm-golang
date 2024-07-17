@@ -12,6 +12,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// Run starts the HTTP server.
 func Run(logger *logrus.Logger, db *sql.DB) error {
 	userRepo := repository.NewUserRepository(db)
 	userService := services.NewUserService(userRepo)
