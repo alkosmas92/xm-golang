@@ -9,7 +9,7 @@ import (
 )
 
 type CompanyRepository interface {
-	GetCompanysByUserID(ctx context.Context, companyID uuid.UUID) (*models.Company, error)
+	GetCompanyByCompanyID(ctx context.Context, companyID uuid.UUID) (*models.Company, error)
 	CreateCompany(ctx context.Context, company *models.Company) error
 	UpdateCompany(ctx context.Context, companyID uuid.UUID, company *models.Company) error
 	DeleteCompany(ctx context.Context, companyID uuid.UUID) error
@@ -23,7 +23,7 @@ func NewCompanyRepository(db *sql.DB) CompanyRepository {
 	return &companyRepository{db: db}
 }
 
-func (r *companyRepository) GetCompanysByUserID(ctx context.Context, companyID uuid.UUID) (*models.Company, error) {
+func (r *companyRepository) GetCompanyByCompanyID(ctx context.Context, companyID uuid.UUID) (*models.Company, error) {
 	select {
 	case <-ctx.Done():
 		return nil, ctx.Err()

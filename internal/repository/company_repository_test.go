@@ -47,7 +47,7 @@ func TestCompanyRepository(t *testing.T) {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
-	retrievedCompany, err := repo.GetCompanysByUserID(ctx, company.CompanyID)
+	retrievedCompany, err := repo.GetCompanyByCompanyID(ctx, company.CompanyID)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -59,7 +59,6 @@ func TestCompanyRepository(t *testing.T) {
 	assert.Equal(t, company.Registered, retrievedCompany.Registered)
 	assert.Equal(t, company.Type, retrievedCompany.Type)
 
-	// Test UpdateCompany
 	updatedCompany := &models.Company{
 		CompanyID:         company.CompanyID,
 		Name:              "Updated Company",
@@ -74,7 +73,7 @@ func TestCompanyRepository(t *testing.T) {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
-	retrievedCompany, err = repo.GetCompanysByUserID(ctx, updatedCompany.CompanyID)
+	retrievedCompany, err = repo.GetCompanyByCompanyID(ctx, updatedCompany.CompanyID)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -86,13 +85,12 @@ func TestCompanyRepository(t *testing.T) {
 	assert.Equal(t, updatedCompany.Registered, retrievedCompany.Registered)
 	assert.Equal(t, updatedCompany.Type, retrievedCompany.Type)
 
-	// Test DeleteCompany
 	err = repo.DeleteCompany(ctx, company.CompanyID)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
-	retrievedCompany, err = repo.GetCompanysByUserID(ctx, company.CompanyID)
+	retrievedCompany, err = repo.GetCompanyByCompanyID(ctx, company.CompanyID)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}

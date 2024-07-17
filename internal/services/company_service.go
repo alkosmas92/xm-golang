@@ -8,7 +8,7 @@ import (
 )
 
 type CompanyService interface {
-	GetCompanysByUserID(ctx context.Context, companyID uuid.UUID) (*models.Company, error)
+	GetCompanyByCompanyID(ctx context.Context, companyID uuid.UUID) (*models.Company, error)
 	CreateCompany(ctx context.Context, company *models.Company) error
 	UpdateCompany(ctx context.Context, companyID uuid.UUID, company *models.Company) error
 	DeleteCompany(ctx context.Context, companyID uuid.UUID) error
@@ -22,8 +22,8 @@ func NewCompanyService(repo repository.CompanyRepository) CompanyService {
 	return &companyService{repo: repo}
 }
 
-func (s *companyService) GetCompanysByUserID(ctx context.Context, companyID uuid.UUID) (*models.Company, error) {
-	return s.repo.GetCompanysByUserID(ctx, companyID)
+func (s *companyService) GetCompanyByCompanyID(ctx context.Context, companyID uuid.UUID) (*models.Company, error) {
+	return s.repo.GetCompanyByCompanyID(ctx, companyID)
 }
 
 func (s *companyService) CreateCompany(ctx context.Context, company *models.Company) error {
