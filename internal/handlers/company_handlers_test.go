@@ -11,8 +11,8 @@ import (
 	"github.com/alkosmas92/xm-golang/internal/services"
 	"github.com/google/uuid"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
-	"go.uber.org/zap"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -24,7 +24,7 @@ func setupTestDB() (*sql.DB, error) {
 		return nil, err
 	}
 	query := `
-	CREATE TABLE companies (
+	CREATE TABLE company (
 		CompanyID TEXT PRIMARY KEY,
 		name TEXT NOT NULL UNIQUE,
 		description TEXT,
@@ -48,7 +48,7 @@ func TestIntegrationCompanyHandler(t *testing.T) {
 	// Initialize repository, service, and handler
 	repo := repository.NewCompanyRepository(db)
 	service := services.NewCompanyService(repo)
-	logger, _ := zap.NewDevelopment()
+	logger := logrus.New()
 	handler := handlers.NewCompanyHandler(service, logger)
 
 	// Test create company

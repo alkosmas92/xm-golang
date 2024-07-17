@@ -3,21 +3,22 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"github.com/sirupsen/logrus"
+	"go.uber.org/zap"
 	"net/http"
 	"time"
 
 	"github.com/alkosmas92/xm-golang/internal/models"
 	"github.com/alkosmas92/xm-golang/internal/services"
 	"github.com/google/uuid"
-	"go.uber.org/zap"
 )
 
 type CompanyHandler struct {
 	Service services.CompanyService
-	Logger  *zap.Logger
+	Logger  *logrus.Logger
 }
 
-func NewCompanyHandler(service services.CompanyService, logger *zap.Logger) *CompanyHandler {
+func NewCompanyHandler(service services.CompanyService, logger *logrus.Logger) *CompanyHandler {
 	return &CompanyHandler{Service: service, Logger: logger}
 }
 

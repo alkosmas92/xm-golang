@@ -3,22 +3,23 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"go.uber.org/zap"
 	"net/http"
 	"time"
 
 	"github.com/alkosmas92/xm-golang/internal/models"
 	"github.com/alkosmas92/xm-golang/internal/services"
 	"github.com/alkosmas92/xm-golang/internal/utils"
-	"go.uber.org/zap"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type UserHandler struct {
 	Service services.UserService
-	Logger  *zap.Logger
+	Logger  *logrus.Logger
 }
 
-func NewUserHandler(service services.UserService, logger *zap.Logger) *UserHandler {
+func NewUserHandler(service services.UserService, logger *logrus.Logger) *UserHandler {
 	return &UserHandler{Service: service, Logger: logger}
 }
 
