@@ -12,6 +12,7 @@ import (
 // AuthMiddleware handles authentication for HTTP requests.
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
 		authHeader := r.Header.Get("Authorization")
 		if authHeader == "" {
 			http.Error(w, "missing authorization header", http.StatusUnauthorized)
@@ -34,7 +35,6 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			http.Error(w, "invalid token: empty userID", http.StatusUnauthorized)
 			return
 		}
-
 		ctx := context.WithValue(r.Context(), appContext.UserIDKey, claims.UserID)
 		ctx = context.WithValue(ctx, appContext.UsernameKey, claims.Username)
 		next.ServeHTTP(w, r.WithContext(ctx))

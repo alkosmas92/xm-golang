@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"github.com/alkosmas92/xm-golang/internal/models"
 	"github.com/google/uuid"
-	"log"
 )
 
 // CompanyRepository provides access to the company storage.
@@ -33,7 +32,7 @@ func (r *companyRepository) GetCompanyByCompanyID(ctx context.Context, companyID
 	default:
 		query := `
 			SELECT companyID, name, description, amountOfEmployees, registered, type
-			FROM companies
+			FROM company
 			WHERE companyID = ?`
 
 		row := r.db.QueryRowContext(ctx, query, companyID)
@@ -55,9 +54,8 @@ func (r *companyRepository) CreateCompany(ctx context.Context, company *models.C
 	case <-ctx.Done():
 		return ctx.Err()
 	default:
-		log.Print(company.CompanyID, company.Name, company.Description, company.AmountOfEmployees, company.Registered, company.Type)
 		query := `
-			INSERT INTO companies (CompanyID, Name, Description, AmountOfEmployees, Registered, Type)
+			INSERT INTO company (CompanyID, Name, Description, AmountOfEmployees, Registered, Type)
 			VALUES (?, ?, ?, ?, ?, ?)`
 		_, err := r.db.ExecContext(ctx, query, company.CompanyID, company.Name, company.Description, company.AmountOfEmployees, company.Registered, company.Type)
 		return err
@@ -70,7 +68,7 @@ func (r *companyRepository) UpdateCompany(ctx context.Context, companyID uuid.UU
 		return ctx.Err()
 	default:
 		query := `
-			UPDATE companies
+			UPDATE company
 			SET name = ?, description = ?, amountOfEmployees = ?, registered = ?, type = ?
 			WHERE companyID = ?`
 		_, err := r.db.ExecContext(ctx, query, company.Name, company.Description, company.AmountOfEmployees, company.Registered, company.Type, companyID)
@@ -83,7 +81,7 @@ func (r *companyRepository) DeleteCompany(ctx context.Context, companyID uuid.UU
 	case <-ctx.Done():
 		return ctx.Err()
 	default:
-		query := "DELETE FROM companies WHERE companyID = ?"
+		query := "DELETE FROM company WHERE companyID = ?"
 		_, err := r.db.ExecContext(ctx, query, companyID)
 		return err
 	}

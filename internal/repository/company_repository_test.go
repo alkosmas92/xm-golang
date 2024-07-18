@@ -16,7 +16,7 @@ func setupTestCompanyDB(t *testing.T) *sql.DB {
 	}
 
 	createTable := `
-	CREATE TABLE companies (
+	CREATE TABLE company (
 		companyID TEXT PRIMARY KEY,
 		name TEXT,
 		description TEXT,

@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - sqlite_data:/data
+    environment:
+      - SQLITE_DB_FILE=/data/company.db
+
+  sqlite_db:
+    image: alpine
+    volumes:
+      - sqlite_data:/data
+      - ./init.sql:/init.sql
+    command: ["sh", "-c", "apk add --no-cache sqlite && touch /data/company.db && sqlite3 /data/company.db < /init.sql"]
+
+volumes:
+  sqlite_data:

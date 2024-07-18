@@ -27,28 +27,24 @@ func NewUserHandler(service services.UserService, logger *logrus.Logger) *UserHa
 
 // Register handles user registration.
 func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var user models.User
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		h.Logger.Error("failed to decode request body", zap.Error(err))
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
 	}
-
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		h.Logger.Error("failed to hash password", zap.Error(err))
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
 	newUser := models.NewUser(user.Username, string(hashedPassword), user.FirstName, user.LastName)
-
 	ctx, cancel := context.WithTimeout(r.Context(), 10*time.Second)
 	defer cancel()
 
 	if err := h.Service.RegisterUser(ctx, newUser); err != nil {
-		h.Logger.Error("failed to register user", zap.Error(err))
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
@@ -59,13 +55,14 @@ func (h *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 
 // Login handles user login.
 func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
 	var credentials struct {
 		Username string `json:"username"`
 		Password string `json:"password"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&credentials); err != nil {
-		h.Logger.Error("failed to decode request body", zap.Error(err))
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
 	}
@@ -95,7 +92,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	h.Logger.Info("user logged in", zap.String("username", user.Username))
 	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(map[string]string{"token": token, "user_id": user.UserID}); err != nil {
+	if err := json.NewEncoder(w).Encode(map[string]string{"token": token}); err != nil {
 		h.Logger.Error("failed to encode response", zap.Error(err))
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}

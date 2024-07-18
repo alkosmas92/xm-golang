@@ -2,6 +2,7 @@ package server
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -21,11 +22,14 @@ func Run(logger *logrus.Logger, db *sql.DB) error {
 	favoriteRepo := repository.NewCompanyRepository(db)
 	favoriteService := services.NewCompanyService(favoriteRepo)
 	favoriteHandler := handlers.NewCompanyHandler(favoriteService, logger)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "Hello, World!")
+	})
 
 	http.HandleFunc("/register", userHandler.Register)
 	http.HandleFunc("/login", userHandler.Login)
 
-	http.Handle("/favorites", middleware.AuthMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	http.Handle("/company", middleware.AuthMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodPost:
 			favoriteHandler.CreateCompany(w, r)

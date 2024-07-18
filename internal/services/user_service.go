@@ -6,7 +6,6 @@ import (
 	"github.com/alkosmas92/xm-golang/internal/models"
 	"github.com/alkosmas92/xm-golang/internal/repository"
 	"golang.org/x/crypto/bcrypt"
-	"log"
 )
 
 // UserService provides user-related services.
@@ -30,7 +29,6 @@ func (s *userService) RegisterUser(ctx context.Context, user *models.User) error
 
 func (s *userService) AuthenticateUser(ctx context.Context, username, password string) (*models.User, error) {
 	user, err := s.repo.GetUserByUsername(ctx, username)
-	log.Print("user: ", user)
 	if err != nil {
 		return nil, err
 	}
