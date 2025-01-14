@@ -2,7 +2,7 @@ Sure! I'll include information on `golint` and how to run it in the README. Here
 
 ---
 
-# Rest-API with GO
+# RESTful-API with GO
 
 This project is a Go server that handles user registration, authentication, and management of user favorites. The server uses a SQLite database to store user and company data.
 
